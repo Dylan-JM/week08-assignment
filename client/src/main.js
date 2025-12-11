@@ -15,6 +15,22 @@ function handleSubmitMessageForm(event) {
     },
     body: JSON.stringify({ username, message, category }),
   });
+
+  document.getElementById("messageForm").reset();
 }
 
 messageForm.addEventListener("submit", handleSubmitMessageForm);
+
+async function fetchGuestbookEntries() {
+  const response = await fetch("http://localhost:8080/guestbook", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  console.log(data);
+}
+
+fetchGuestbookEntries();
