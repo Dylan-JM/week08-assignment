@@ -9,6 +9,15 @@
     <title>client</title>
   </head>
   <body>
-    <!-- TODO: an element to allow users to input data -->
+    <header>
+      <h1>Header</h1>
+    </header>
+    <form id="messageForm">
+      <label for="msg_name">Name:</label>
+      <input type="text" id="msg_name" name="msg_name" required />
+      <label for="content">Message:</label>
+      <input id="content" name="content" required />
+      <button type="submit">Send</button>
+    </form>
   </body>
 </html>

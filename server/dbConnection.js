@@ -1,7 +1,8 @@
-//TODO: set up a pool to connect server with database
+import dotenv from "dotenv";
+import pg from "pg";
 
-//imports
+dotenv.config();
 
-//config
-
-//pool
+export const db = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+});

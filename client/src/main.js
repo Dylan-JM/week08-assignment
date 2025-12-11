@@ -1,21 +1,19 @@
-//TODO: collect users data and send to the server
+const messageForm = document.querySelector("#messageForm");
 
-//submit event to collect users' data
+function handleSubmitMessageForm(event) {
+  event.preventDefault();
 
-//fetch the POST server route
+  const formData = new FormData(messageForm);
+  const msg_name = formData.get("msg_name");
+  const content = formData.get("content");
 
-fetch("url", {
-  method: "POST",
-  headers: {},
-  body: JSON.stringify({}),
-});
+  fetch("http://localhost:8080/messages", {
+    method: "POST", // This is where we set the POST HTTP verb
+    headers: {
+      "Content-Type": "application/json", // This tells the server we're sending stringified JSON data
+    },
+    body: JSON.stringify({ msg_name, content }),
+  });
+}
 
-//! Once you finish your project, replace your localhost url with the deployed server url from Render
-
-//======================
-
-//TODO: render users' data on the interface
-
-//fetch the GET route from the server
-
-// render the data using DOM elements. (one per piece of data)
+messageForm.addEventListener("submit", handleSubmitMessageForm);
