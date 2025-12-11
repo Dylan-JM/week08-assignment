@@ -20,11 +20,11 @@ app.get("/", (req, res) => {
 // read data from database
 app.get("/guestbook", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM messages ORDER BY id ASC");
-    res.json({ messages: result.rows });
+    const result = await db.query("SELECT * FROM guestbook ORDER BY id ASC");
+    res.json({ guestbook: result.rows });
   } catch (err) {
-    console.error("Error fetching messages:", err);
-    res.status(500).json({ error: "Failed to fetch messages" });
+    console.error("Error fetching guestbook:", err);
+    res.status(500).json({ error: "Failed to fetch guestbook" });
   }
 });
 
