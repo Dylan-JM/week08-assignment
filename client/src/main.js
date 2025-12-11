@@ -4,15 +4,16 @@ function handleSubmitMessageForm(event) {
   event.preventDefault();
 
   const formData = new FormData(messageForm);
-  const msg_name = formData.get("msg_name");
-  const content = formData.get("content");
+  const username = formData.get("username");
+  const message = formData.get("message");
+  const category = formData.get("category");
 
-  fetch("http://localhost:8080/messages", {
-    method: "POST", // This is where we set the POST HTTP verb
+  fetch("http://localhost:8080/guestbook", {
+    method: "POST",
     headers: {
-      "Content-Type": "application/json", // This tells the server we're sending stringified JSON data
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ msg_name, content }),
+    body: JSON.stringify({ username, message, category }),
   });
 }
 

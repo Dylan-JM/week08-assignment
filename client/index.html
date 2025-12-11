@@ -6,17 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" src="/src/main.js" defer></script>
     <link rel="stylesheet" href="/src/style.css" />
-    <title>client</title>
+    <title>Game Feedback</title>
   </head>
   <body>
     <header>
       <h1>Header</h1>
     </header>
     <form id="messageForm">
-      <label for="msg_name">Name:</label>
-      <input type="text" id="msg_name" name="msg_name" required />
-      <label for="content">Message:</label>
-      <input id="content" name="content" required />
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+      <label for="message">Message:</label>
+      <input id="message" name="message" required />
+      <label for="category">Category:</label>
+      <select id="category" name="category" required>
+        <option value="review">Review</option>
+        <option value="bug">Bug</option>
+        <option value="suggestion">Suggestion</option>
+        <option value="other">Other</option>
+      </select>
       <button type="submit">Send</button>
     </form>
   </body>

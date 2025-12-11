@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { db } from "./dbConnection.js";
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.get("/", (req, res) => {
 });
 
 // read data from database
-app.get("/messages", async (req, res) => {
+app.get("/guestbook", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM messages ORDER BY id ASC");
     res.json({ messages: result.rows });
@@ -28,12 +29,12 @@ app.get("/messages", async (req, res) => {
 });
 
 // create data in database
-app.post("/messages", async (req, res) => {
-  const { msg_name, content } = req.body;
+app.post("/guestbook", async (req, res) => {
+  const { username, message, category } = req.body;
 
   const query = db.query(
-    `INSERT INTO messages (msg_name, content) VALUES ($1, $2) RETURNING *`,
-    [msg_name, content]
+    `INSERT INTO guestbook (username, message, category) VALUES ($1, $2, $3) RETURNING *`,
+    [username, message, category]
   );
-  res.json({ status: "success", values: msg_name, content });
+  res.json({ status: "success", values: username, message, category });
 });
