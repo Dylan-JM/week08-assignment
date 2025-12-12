@@ -37,9 +37,48 @@ async function fetchGuestbookEntries() {
 
   data.guestbook.forEach((event) => {
     const listItem = document.createElement("li");
-    listItem.textContent = `${event.username} (${event.category}): ${event.message}`;
+
+    const messageText = document.createElement("span");
+    messageText.textContent = `${event.username} (${event.category}): ${event.message}`;
+
+    // Delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.classList.add("delete-button");
+    deleteBtn.addEventListener("click", async () => {
+      await fetch(`http://localhost:8080/guestbook/${event.id}`, {
+        method: "DELETE",
+      });
+      await fetchGuestbookEntries();
+    });
+
+    // Like button
+    const likeBtn = document.createElement("button");
+    likeBtn.textContent = "❤️";
+    likeBtn.classList.add("like-button");
+    likeBtn.addEventListener("click", async () => {
+      await fetch(`http://localhost:8080/guestbook/${event.id}/like`, {
+        method: "POST",
+      });
+      await fetchGuestbookEntries();
+    });
+
+    const likeCount = document.createElement("span");
+    likeCount.textContent = `(${event.likes || 0})`;
+
+    const likeContainer = document.createElement("div");
+    likeContainer.classList.add("like-container");
+    likeContainer.appendChild(likeBtn);
+    likeContainer.appendChild(likeCount);
+
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message-container");
+    messageContainer.appendChild(messageText);
+    messageContainer.appendChild(likeContainer);
+
+    listItem.appendChild(messageContainer);
+    listItem.appendChild(deleteBtn);
     list.appendChild(listItem);
   });
 }
-
 fetchGuestbookEntries();

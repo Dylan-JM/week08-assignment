@@ -38,3 +38,19 @@ app.post("/guestbook", async (req, res) => {
   );
   res.json({ status: "success", values: username, message, category });
 });
+
+//delete posts
+app.delete("/guestbook/:id", async (req, res) => {
+  const id = req.params.id;
+
+  await db.query("DELETE FROM guestbook WHERE id = $1", [id]);
+  res.json({ status: "success", message: `Entry with id ${id} deleted.` });
+});
+
+//like button
+app.post("/guestbook/:id/like", async (req, res) => {
+  const id = req.params.id;
+
+  await db.query("UPDATE guestbook SET likes = likes + 1 WHERE id = $1", [id]);
+  res.json({ status: "success", message: `Entry with id ${id} liked.` });
+});
