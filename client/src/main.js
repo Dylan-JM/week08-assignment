@@ -8,7 +8,7 @@ async function handleSubmitMessageForm(event) {
   const message = formData.get("message");
   const category = formData.get("category");
 
-  await fetch("http://localhost:8080/guestbook", {
+  await fetch("https://week08-assignment-server.onrender.com/guestbook", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,12 +23,15 @@ async function handleSubmitMessageForm(event) {
 messageForm.addEventListener("submit", handleSubmitMessageForm);
 
 async function fetchGuestbookEntries() {
-  const response = await fetch("http://localhost:8080/guestbook", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    "https://week08-assignment-server.onrender.com/guestbook",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const data = await response.json();
   console.log(data);
 
@@ -46,9 +49,12 @@ async function fetchGuestbookEntries() {
     deleteBtn.textContent = "Delete";
     deleteBtn.classList.add("delete-button");
     deleteBtn.addEventListener("click", async () => {
-      await fetch(`http://localhost:8080/guestbook/${event.id}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `https://week08-assignment-server.onrender.com/guestbook/${event.id}`,
+        {
+          method: "DELETE",
+        }
+      );
       await fetchGuestbookEntries();
     });
 
@@ -57,9 +63,12 @@ async function fetchGuestbookEntries() {
     likeBtn.textContent = "❤️";
     likeBtn.classList.add("like-button");
     likeBtn.addEventListener("click", async () => {
-      await fetch(`http://localhost:8080/guestbook/${event.id}/like`, {
-        method: "POST",
-      });
+      await fetch(
+        `https://week08-assignment-server.onrender.com/guestbook/${event.id}/like`,
+        {
+          method: "POST",
+        }
+      );
       await fetchGuestbookEntries();
     });
 

@@ -10,7 +10,9 @@ app.use(cors());
 const PORT = 8080;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(
+    `Server is running on https://week08-assignment-server.onrender.com:${PORT}`
+  );
 });
 
 app.get("/", (req, res) => {
