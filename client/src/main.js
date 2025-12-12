@@ -8,7 +8,7 @@ async function handleSubmitMessageForm(event) {
   const message = formData.get("message");
   const category = formData.get("category");
 
-  fetch("http://localhost:8080/guestbook", {
+  await fetch("http://localhost:8080/guestbook", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

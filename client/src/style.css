@@ -6,10 +6,108 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: grey;
+  background-color: #2c2c2c;
+  color: white;
   padding: 20px;
 }
-/* 
-responseive design --> media queries */
 
-/* accessibility */
+header {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #444;
+  border-radius: 8px;
+}
+
+header h1 {
+  color: darkviolet;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  background-color: #3a3a3a;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #555;
+  border: 2px solid #777;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: darkviolet;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: darkviolet;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: purple;
+}
+
+#message-section {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#message-list {
+  list-style: none;
+  padding: 0;
+}
+
+#message-list li {
+  background-color: #3a3a3a;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-left: 4px solid darkviolet;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 10px;
+  }
+
+  header {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  #message-list li {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
