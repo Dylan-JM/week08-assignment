@@ -1,6 +1,6 @@
 const messageForm = document.querySelector("#messageForm");
 
-function handleSubmitMessageForm(event) {
+async function handleSubmitMessageForm(event) {
   event.preventDefault();
 
   const formData = new FormData(messageForm);
@@ -17,6 +17,7 @@ function handleSubmitMessageForm(event) {
   });
 
   document.getElementById("messageForm").reset();
+  await fetchGuestbookEntries();
 }
 
 messageForm.addEventListener("submit", handleSubmitMessageForm);
