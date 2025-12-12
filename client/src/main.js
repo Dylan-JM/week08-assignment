@@ -28,9 +28,17 @@ async function fetchGuestbookEntries() {
       "Content-Type": "application/json",
     },
   });
-
   const data = await response.json();
   console.log(data);
+
+  const list = document.getElementById("message-list");
+  list.innerHTML = "";
+
+  data.guestbook.forEach((event) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${event.username} (${event.category}): ${event.message}`;
+    list.appendChild(listItem);
+  });
 }
 
 fetchGuestbookEntries();
