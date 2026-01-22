@@ -66,6 +66,15 @@ export default async function PlaylistId({ params }) {
 
   const comments = commentsQuery.rows;
 
+  async function handleDelete(formData) {
+    "use server";
+
+    const commentId = formData.get("commentId");
+
+    await db.query(`DELETE FROM comments_playlists WHERE id = $1`, [commentId]);
+
+    revalidatePath(`/playlists/${playlistId}`);
+  }
   return (
     <>
       <h1>{playlist.title}</h1>
@@ -93,8 +102,12 @@ export default async function PlaylistId({ params }) {
           <li key={comment.id}>
             <p>
               {comment.name}: {comment.comment} at{" "}
-              {new Date(comment.created_at).toLocaleString()}
+              {new Date(comment.created_at).toLocaleString()}{" "}
             </p>
+            <form action={handleDelete}>
+              <input type="hidden" name="commentId" value={comment.id} />
+              <button>Delete</button>
+            </form>
           </li>
         ))}
       </ul>
