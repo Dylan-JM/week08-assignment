@@ -1,7 +1,6 @@
 import { db } from "@/utils/dbConnection";
 import fetch from "node-fetch";
 import spotifyUrlInfo from "spotify-url-info";
-import Image from "next/image";
 const { getPreview } = spotifyUrlInfo(fetch);
 
 export default async function PlaylistId({ params }) {
@@ -51,17 +50,14 @@ export default async function PlaylistId({ params }) {
       <ul>
         {songsWithMeta.map((song) => (
           <li key={song.id}>
-            <Image
-              src={song.image}
-              alt={song.trackName}
-              width={80}
-              height={80}
-            />
             <p>{song.trackName}</p>
             <p>{song.artist}</p>
-            <audio controls src={song.preview}>
-              Your browser does not support audio.
-            </audio>
+            <iframe
+              src={`https://open.spotify.com/embed/track/${song.spotify_url.split("/track/")[1]}`}
+              width="300"
+              height="80"
+              allow="encrypted-media"
+            ></iframe>
             <p>{song.personal_comment}</p>
           </li>
         ))}
