@@ -1,6 +1,7 @@
 import { db } from "@/utils/dbConnection";
 import fetch from "node-fetch";
 import spotifyUrlInfo from "spotify-url-info";
+import Link from "next/link";
 
 const { getData } = spotifyUrlInfo(fetch);
 
@@ -23,7 +24,7 @@ export default async function PlaylistsPage({ params }) {
       {playlistMetaData.map((playlist) => {
         return (
           <li key={playlist.id}>
-            <h2>{playlist.title}</h2>{" "}
+            <Link href={`/playlists/${playlist.id}`}>{playlist.title}</Link>
             <p>
               {playlist.image} {playlist.description}
             </p>
