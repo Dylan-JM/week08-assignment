@@ -1,4 +1,5 @@
 import { db } from "@/utils/dbConnection";
+import { revalidatePath } from "next/cache";
 import fetch from "node-fetch";
 import spotifyUrlInfo from "spotify-url-info";
 const { getPreview } = spotifyUrlInfo(fetch);
@@ -41,6 +42,30 @@ export default async function PlaylistId({ params }) {
     }),
   );
 
+  //Forms and Submitting form
+  async function handleSubmit(formData) {
+    "use server";
+    console.log(formData);
+    const formValues = {
+      name: formData.get("name"),
+      comment: formData.get("comment"),
+    };
+
+    db.query(
+      `INSERT INTO comments_playlists (name, comment, playlist_id) VALUES ($1, $2, $3)`,
+      [formValues.name, formValues.comment, playlistId],
+    );
+
+    revalidatePath(`/playlists/${playlistId}`);
+  }
+
+  const commentsQuery = await db.query(
+    `SELECT * FROM comments_playlists WHERE playlist_id = $1 ORDER BY created_at ASC`,
+    [playlistId],
+  );
+
+  const comments = commentsQuery.rows;
+
   return (
     <>
       <h1>{playlist.title}</h1>
@@ -62,6 +87,23 @@ export default async function PlaylistId({ params }) {
           </li>
         ))}
       </ul>
+
+      <ul>
+        {comments.map((comment) => (
+          <li key={comment.id}>
+            <p>
+              {comment.name}: {comment.comment}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <form action={handleSubmit}>
+        <label htmlFor="name">Name: </label>
+        <input type="text" name="name" maxLength={255} required />
+        <label htmlFor="comment">Comment: </label>
+        <input type="text" name="comment" maxLength={255} required />
+        <button>Submit</button>
+      </form>
     </>
   );
 }
