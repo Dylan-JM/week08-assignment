@@ -92,7 +92,8 @@ export default async function PlaylistId({ params }) {
         {comments.map((comment) => (
           <li key={comment.id}>
             <p>
-              {comment.name}: {comment.comment}
+              {comment.name}: {comment.comment} at{" "}
+              {new Date(comment.created_at).toLocaleString()}
             </p>
           </li>
         ))}
