@@ -1,3 +1,4 @@
+import EditToggle from "@/components/EditToggle";
 import { db } from "@/utils/dbConnection";
 import { revalidatePath } from "next/cache";
 import fetch from "node-fetch";
@@ -75,6 +76,19 @@ export default async function PlaylistId({ params }) {
 
     revalidatePath(`/playlists/${playlistId}`);
   }
+
+  async function handleEdit(formData) {
+    "use server";
+    const commentId = formData.get("commentId");
+    const newComment = formData.get("newComment");
+
+    await db.query(`UPDATE comments_playlists SET comment = $1 WHERE id = $2`, [
+      newComment,
+      commentId,
+    ]);
+    revalidatePath(`/playlists/${playlistId}`);
+  }
+
   return (
     <>
       <h1>{playlist.title}</h1>
@@ -104,6 +118,19 @@ export default async function PlaylistId({ params }) {
               {comment.name}: {comment.comment} at{" "}
               {new Date(comment.created_at).toLocaleString()}{" "}
             </p>
+            <EditToggle>
+              <form action={handleEdit}>
+                <input type="hidden" name="commentId" value={comment.id} />
+                <input
+                  type="text"
+                  name="newComment"
+                  defaultValue={comment.comment}
+                  maxLength={255}
+                  required
+                />
+                <button>Save</button>
+              </form>
+            </EditToggle>
             <form action={handleDelete}>
               <input type="hidden" name="commentId" value={comment.id} />
               <button>Delete</button>
