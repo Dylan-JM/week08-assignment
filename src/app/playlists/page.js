@@ -5,9 +5,12 @@ import Link from "next/link";
 
 const { getData } = spotifyUrlInfo(fetch);
 
-export default async function PlaylistsPage({ params }) {
-  const { rows } = await db.query(`SELECT * FROM playlists ORDER BY id ASC`);
-
+export default async function PlaylistsPage({ searchParams }) {
+  const params = await searchParams;
+  const order = params.sort === "desc" ? "DESC" : "ASC";
+  const { rows } = await db.query(
+    `SELECT * FROM playlists ORDER BY id ${order}`,
+  );
   const playlistMetaData = await Promise.all(
     rows.map(async (playlist) => {
       const meta = await getData(playlist.spotify_url);
@@ -21,6 +24,11 @@ export default async function PlaylistsPage({ params }) {
   return (
     <>
       <h1>Playlists</h1>
+      <div>
+        <Link href="/playlists?sort=asc">Sort Oldest</Link>
+        <Link href="/playlists?sort=desc">Sort Newest</Link>
+      </div>
+
       {playlistMetaData.map((playlist) => {
         return (
           <li key={playlist.id}>
