@@ -10,7 +10,7 @@ export default async function PlaylistsPage({ searchParams }) {
   const order = params.sort === "desc" ? "DESC" : "ASC";
 
   const { rows } = await db.query(
-    `SELECT * FROM playlists ORDER BY id ${order}`,
+    `SELECT * FROM playlists ORDER BY "order" ${order}`,
   );
 
   const playlistMetaData = await Promise.all(
