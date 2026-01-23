@@ -8,37 +8,60 @@ const { getData } = spotifyUrlInfo(fetch);
 export default async function PlaylistsPage({ searchParams }) {
   const params = await searchParams;
   const order = params.sort === "desc" ? "DESC" : "ASC";
+
   const { rows } = await db.query(
     `SELECT * FROM playlists ORDER BY id ${order}`,
   );
+
   const playlistMetaData = await Promise.all(
     rows.map(async (playlist) => {
       const meta = await getData(playlist.spotify_url);
       return {
-        ...playlist, // database data id, description, spotify_url, etc.
-        title: meta.title || meta.name, // extra data from the spotify_url
+        ...playlist,
+        title: meta.title || meta.name,
       };
     }),
   );
 
   return (
-    <>
-      <h1>Playlists</h1>
-      <div>
-        <Link href="/playlists?sort=asc">Sort Oldest</Link>
-        <Link href="/playlists?sort=desc">Sort Newest</Link>
+    <main className="px-6 py-10 bg-(--bg) text-(--text) space-y-10">
+      <h1 className="text-4xl font-bold text-(--accent)">Playlists</h1>
+
+      <div className="flex gap-4">
+        <Link
+          href="/playlists?sort=asc"
+          className="text-(--accent) hover:underline"
+        >
+          Sort Oldest
+        </Link>
+
+        <Link
+          href="/playlists?sort=desc"
+          className="text-(--accent) hover:underline"
+        >
+          Sort Newest
+        </Link>
       </div>
 
-      {playlistMetaData.map((playlist) => {
-        return (
-          <li key={playlist.id}>
-            <Link href={`/playlists/${playlist.id}`}>{playlist.title}</Link>
-            <p>
+      <ul className="space-y-4">
+        {playlistMetaData.map((playlist) => (
+          <li
+            key={playlist.id}
+            className="bg-(--card) border border-(--border) p-4 rounded-lg hover:border-(--accent) transition"
+          >
+            <Link
+              href={`/playlists/${playlist.id}`}
+              className="text-(--accent) text-xl font-medium hover:underline"
+            >
+              {playlist.title}
+            </Link>
+
+            <p className="text-sm opacity-80 mt-1">
               {playlist.image} {playlist.description}
             </p>
           </li>
-        );
-      })}
-    </>
+        ))}
+      </ul>
+    </main>
   );
 }
