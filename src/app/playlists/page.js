@@ -15,11 +15,21 @@ export default async function PlaylistsPage({ searchParams }) {
 
   const playlistMetaData = await Promise.all(
     rows.map(async (playlist) => {
-      const meta = await getData(playlist.spotify_url);
-      return {
-        ...playlist,
-        title: meta.title || meta.name,
-      };
+      try {
+        const meta = await getData(playlist.spotify_url);
+
+        return {
+          ...playlist,
+          title: meta.title || "Unknown Playlist",
+        };
+      } catch (err) {
+        console.error("Failed to fetch metadata for:", playlist.spotify_url);
+
+        return {
+          ...playlist,
+          title: "Unknown Playlist",
+        };
+      }
     }),
   );
 

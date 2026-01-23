@@ -18,11 +18,19 @@ export default async function HomePage() {
 
   const recent = await Promise.all(
     recentRows.map(async (playlist) => {
-      const meta = await getData(playlist.spotify_url);
-      return {
-        ...playlist,
-        title: meta.title || meta.name,
-      };
+      try {
+        const meta = await getData(playlist.spotify_url);
+        return {
+          ...playlist,
+          title: meta.title,
+        };
+      } catch (err) {
+        console.error("Failed to fetch metadata for:", playlist.spotify_url);
+        return {
+          ...playlist,
+          title: "Untitled Playlist",
+        };
+      }
     }),
   );
 
