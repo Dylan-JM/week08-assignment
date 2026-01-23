@@ -1,6 +1,7 @@
 import EditToggle from "@/components/EditToggle";
 import { db } from "@/utils/dbConnection";
 import { revalidatePath } from "next/cache";
+import Link from "next/link";
 import fetch from "node-fetch";
 import spotifyUrlInfo from "spotify-url-info";
 const { getPreview } = spotifyUrlInfo(fetch);
@@ -96,7 +97,16 @@ export default async function PlaylistId({ params }) {
     <main className="px-6 py-10 bg-(--bg) text-(--text) space-y-12">
       <section className="space-y-2 border-l-4 border-(--accent) pl-4">
         <h1 className="text-3xl font-bold text-(--accent)">{playlist.title}</h1>
+
         <p className="opacity-80">{playlist.description}</p>
+
+        <Link
+          href={playlist.spotify_url}
+          target="_blank"
+          className="inline-block text-(--accent) hover:underline font-medium"
+        >
+          Open on Spotify
+        </Link>
       </section>
 
       <section className="space-y-4">
