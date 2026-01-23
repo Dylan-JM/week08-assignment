@@ -1,20 +1,17 @@
 "use client";
-
-import { useState } from "react";
+import { useState, cloneElement } from "react";
 
 export default function EditToggle({ children }) {
   const [open, setOpen] = useState(false);
 
+  const enhancedChild = cloneElement(children, {
+    onSubmit: () => setOpen(false),
+  });
+
   return (
     <div>
-      {!open && <button onClick={() => setOpen(true)}>Edit</button>}
-
-      {open && (
-        <div>
-          {children}
-          <button onClick={() => setOpen(false)}>Cancel</button>
-        </div>
-      )}
+      <button onClick={() => setOpen(!open)}>Edit</button>
+      {open && enhancedChild}
     </div>
   );
 }
